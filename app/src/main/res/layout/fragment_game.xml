@@ -14,61 +14,107 @@
 
         <ImageView
             android:id="@+id/cute_soul"
-            android:layout_width="195dp"
-            android:layout_height="236dp"
-            android:layout_marginBottom="148dp"
-            android:layout_marginEnd="36dp"
-            android:contentDescription="soul"
+            android:layout_width="201dp"
+            android:layout_height="240dp"
+            android:layout_marginBottom="96dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/soul"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/soul3"
-            android:layout_marginRight="36dp" />
+            android:layout_marginRight="16dp" />
 
         <ImageView
             android:id="@+id/cute_gost"
             android:layout_width="154dp"
             android:layout_height="163dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="32dp"
-            android:contentDescription="TODO"
+            android:layout_marginBottom="36dp"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/todo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/gost" />
+            app:srcCompat="@drawable/gost"
+            android:layout_marginLeft="16dp" />
 
         <ImageButton
             android:id="@+id/start_adventure"
-            android:layout_width="317dp"
-            android:layout_height="138dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="56dp"
+            android:layout_width="314dp"
+            android:layout_height="136dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="44dp"
             android:background="#00FF0000"
-            app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toStartOf="@+id/cute_soul"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/startgame" />
+            app:srcCompat="@drawable/startgame"
+            android:layout_marginRight="8dp"
+            android:contentDescription="@string/migong" />
 
         <ImageButton
             android:id="@+id/battle"
             android:layout_width="98dp"
             android:layout_height="96dp"
-            android:layout_marginBottom="32dp"
-            android:layout_marginStart="56dp"
+            android:layout_marginBottom="56dp"
+            android:layout_marginStart="32dp"
             android:background="#00FF0000"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cute_gost"
-            app:srcCompat="@drawable/battle" />
+            app:srcCompat="@drawable/battle"
+            android:layout_marginLeft="32dp"
+            android:contentDescription="@string/fight" />
 
         <ImageButton
             android:id="@+id/story"
             android:layout_width="97dp"
             android:layout_height="96dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="56dp"
             android:layout_marginStart="40dp"
             android:background="#00FF0000"
+            android:contentDescription="@string/story"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/battle"
             app:srcCompat="@drawable/story" />
+
+        <ImageView
+            android:id="@+id/player_head"
+            android:layout_width="125dp"
+            android:layout_height="126dp"
+            android:layout_marginBottom="104dp"
+            android:contentDescription="@string/head"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/cute_gost"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/braveheart" />
+
+        <ImageButton
+            android:id="@+id/help"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#00FF0000"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/help"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@string/helpp" />
+
+        <ImageButton
+            android:id="@+id/options"
+            android:layout_width="140dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:background="#00FF0000"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/option"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@string/options_button" />
 
     </android.support.constraint.ConstraintLayout>
 

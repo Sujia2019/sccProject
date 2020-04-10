@@ -1,23 +1,23 @@
 package com.example.sccproject;
 
 import android.annotation.SuppressLint;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.sccproject.fragment.FirstFragment;
 import com.example.sccproject.fragment.GameFragment;
 import com.example.sccproject.music.MusicServer;
+import com.example.sccproject.net.NettyClient;
 
 
 /**
@@ -28,6 +28,8 @@ public class GameHallActivity extends AppCompatActivity {
 
     private static FragmentManager fm ;
     private ImageButton btn ;
+    private NettyClient nettyClient;
+    private static boolean isNetOk = false;
 
 
     @SuppressLint("CommitTransaction")
@@ -44,14 +46,18 @@ public class GameHallActivity extends AppCompatActivity {
         animation.setRepeatMode(Animation.REVERSE);
 
         setContentView(R.layout.layout_main);
-
         fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.layout_container);
-        if(fragment == null){
-            fragment = new FirstFragment();
-            //first
-            fm.beginTransaction().add(R.id.layout_container,fragment).commit();
-        }
+
+        //开启客户端线程
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                nettyClient = new NettyClient("localhost",8888);
+////                isNetOk = true;
+//            }
+//        }).start();
+
+        createFragment();
 
 
     }
@@ -59,4 +65,17 @@ public class GameHallActivity extends AppCompatActivity {
     public static void replaceFragment(){
         fm.beginTransaction().replace(R.id.layout_container,new GameFragment()).commit();
     }
+
+    public static void createFragment(){
+        Fragment fragment = fm.findFragmentById(R.id.layout_container);
+        if(fragment == null){
+            fragment = new FirstFragment();
+            //first
+            fm.beginTransaction().add(R.id.layout_container,fragment).commit();
+        }
+    }
+
+
+
+
 }
