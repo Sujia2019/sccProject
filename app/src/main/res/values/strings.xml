@@ -9,4 +9,5 @@
     <string name="right">right →</string>
     <string name="jianjie">游戏简介：走迷宫是一款益智类经典小游戏</string>
     <string name="opration">操作说明：通过屏幕下方4个方向键控制行走路线，只要将小红点从左上角移动到右下角就视为成功闯关。同时还提供了循环播放背景音乐，左下角的按键可以播放背景音乐，右下角的按键可以暂停背景音乐的播放。</string>
+    <string name="go">start the game</string>
 </resources>
