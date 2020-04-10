@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/start"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:textSize="40sp"
+        android:textColor="@color/topic"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:text="@string/textGame"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/easy"
+        android:background="@drawable/shape2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="30dp"
+        android:text="容易"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:background="@drawable/shape2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="30dp"
+        android:text="游戏说明"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/difficulty"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/shape2"
+        android:layout_alignParentBottom="true"
+        android:textSize="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:text="困难"/>
+
+</RelativeLayout>
