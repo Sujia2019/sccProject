@@ -106,7 +106,8 @@ public class Game extends AppCompatActivity {
             paint.setAntiAlias(true);
             paint.setColor(0xFF000000);
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(2);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStrokeWidth(5);
 
             maze = new Lattice[NUM][NUM];//地图的大小
             //对格子初始化
@@ -225,6 +226,7 @@ public class Game extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(0xFFffffff);
+//            canvas.
             //从上到下画线
             for (int i = 0; i <= NUM; i++) {
                 canvas.drawLine(padding + i * width, padding, padding + i * width,

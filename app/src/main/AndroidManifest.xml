@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GameHallActivity" android:screenOrientation="landscape"
+        <activity
+            android:name=".GameHallActivity"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
