@@ -2,9 +2,8 @@ package com.example.sccproject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +12,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.sccproject.fragment.FirstFragment;
 import com.example.sccproject.fragment.GameFragment;
@@ -28,7 +28,7 @@ public class GameHallActivity extends AppCompatActivity {
 
     private static FragmentManager fm ;
     private ImageButton btn ;
-    private NettyClient nettyClient;
+    private static NettyClient nettyClient;
     private static boolean isNetOk = false;
 
 
@@ -49,13 +49,25 @@ public class GameHallActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         //开启客户端线程
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                nettyClient = new NettyClient("localhost",8888);
-////                isNetOk = true;
-//            }
+    //        new Thread(new Runnable() {
+    //            @Override
+    //            public void run() {
+    //                nettyClient = new NettyClient("localhost",8888);
+    ////                isNetOk = true;
+    //            }
 //        }).start();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                nettyClient = new NettyClient("localhost",8888);
+//                Looper.prepare();
+//                if(!NettyClient.isOk){
+//
+//                    toastInternet();
+//                }
+//                Looper.loop();
+            }
+        });
 
         createFragment();
 
@@ -75,7 +87,10 @@ public class GameHallActivity extends AppCompatActivity {
         }
     }
 
+    public void toastInternet(){
+        Toast.makeText(GameHallActivity.this,"Error Internet",Toast.LENGTH_SHORT).show();
 
+    }
 
 
 }

@@ -18,4 +18,7 @@
     <string name="options_button">setting</string>
     <string name="helpp">helpp</string>
     <string name="head">head</string>
+    <string name="loginb">登录</string>
+    <string name="reigistb">注册</string>
+    <string name="confirm">确认</string>
 </resources>

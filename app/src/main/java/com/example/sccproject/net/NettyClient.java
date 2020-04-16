@@ -28,6 +28,7 @@ public class NettyClient{
     private static volatile ChannelFuture future;
     private static ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,200,
             TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(5));
+    public static boolean isOk;
     public NettyClient(String host,int port){
         this.host = host;
         this.port = port;
@@ -53,11 +54,12 @@ public class NettyClient{
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
         try {
             future = client.connect(host,port).sync();
-
             System.out.println("------connect------");
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            isOk = true;
+        } catch (Exception e) {
+            isOk = false;
+            System.out.println("xxx");
+//            e.printStackTrace();
         }
     }
 
@@ -73,5 +75,14 @@ public class NettyClient{
             }
         });
     }
+
+//    public static void main(String[] args) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                new NettyClient("localhost",8888);
+//            }
+//        }).start();
+//    }
 
 }
