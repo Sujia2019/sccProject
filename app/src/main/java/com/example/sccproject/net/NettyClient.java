@@ -1,5 +1,6 @@
 package com.example.sccproject.net;
 
+import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.model.Message;
 import com.example.sccproject.net.serializer.GsonSerializer;
 import com.example.sccproject.net.serializer.NettyDecoder;
@@ -56,9 +57,11 @@ public class NettyClient{
             future = client.connect(host,port).sync();
             System.out.println("------connect------");
             isOk = true;
+            GameHallActivity.xxx="Netty";
         } catch (Exception e) {
             isOk = false;
-            System.out.println("xxx");
+//            System.out.println("xxx");
+            GameHallActivity.xxx=e.getMessage();
 //            e.printStackTrace();
         }
     }
@@ -75,14 +78,5 @@ public class NettyClient{
             }
         });
     }
-
-//    public static void main(String[] args) {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                new NettyClient("localhost",8888);
-//            }
-//        }).start();
-//    }
 
 }

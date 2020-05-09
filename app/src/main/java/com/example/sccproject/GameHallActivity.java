@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sccproject.fragment.FirstFragment;
-import com.example.sccproject.fragment.GameFragment;
 import com.example.sccproject.music.MusicServer;
 import com.example.sccproject.net.NettyClient;
 
@@ -30,12 +30,13 @@ public class GameHallActivity extends AppCompatActivity {
     private ImageButton btn ;
     private static NettyClient nettyClient;
     private static boolean isNetOk = false;
-
+    public static String xxx = "xxx";
+    private Intent intent;
 
     @SuppressLint("CommitTransaction")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Intent intent = new Intent(GameHallActivity.this, MusicServer.class);
+        intent = new Intent(GameHallActivity.this, MusicServer.class);
         super.onCreate(savedInstanceState);
         startService(intent);
 
@@ -48,34 +49,30 @@ public class GameHallActivity extends AppCompatActivity {
         setContentView(R.layout.layout_main);
         fm = getSupportFragmentManager();
 
-        //开启客户端线程
-    //        new Thread(new Runnable() {
-    //            @Override
-    //            public void run() {
-    //                nettyClient = new NettyClient("localhost",8888);
-    ////                isNetOk = true;
-    //            }
-//        }).start();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                nettyClient = new NettyClient("localhost",8888);
-//                Looper.prepare();
-//                if(!NettyClient.isOk){
-//
-//                    toastInternet();
-//                }
-//                Looper.loop();
+                nettyClient = new NettyClient("47.93.225.242",8888);
+                Looper.prepare();
+                if(!NettyClient.isOk){
+                    toastInternet();
+                }else{
+                    System.out.println("false");
+                }
+                Looper.loop();
             }
         });
-
         createFragment();
-
-
     }
 
-    public static void replaceFragment(){
-        fm.beginTransaction().replace(R.id.layout_container,new GameFragment()).commit();
+    @Override
+    protected void onDestroy() {
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    public static void replaceFragment(Fragment fragment){
+        fm.beginTransaction().replace(R.id.layout_container,fragment).commit();
     }
 
     public static void createFragment(){
@@ -88,8 +85,7 @@ public class GameHallActivity extends AppCompatActivity {
     }
 
     public void toastInternet(){
-        Toast.makeText(GameHallActivity.this,"Error Internet",Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(GameHallActivity.this,xxx,Toast.LENGTH_SHORT).show();
     }
 
 

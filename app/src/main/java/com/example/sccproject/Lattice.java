@@ -5,8 +5,8 @@ package com.example.sccproject;
  */
 
 public class Lattice {
-    static final int INTREE = 1;
-    static final int NOTINTREE = 0;
+    public static final int INTREE = 1;
+    public static final int NOTINTREE = 0;
     private int x = -1;
     private int y = -1;
     private int flag = NOTINTREE;
@@ -32,5 +32,8 @@ public class Lattice {
     }
     public void setFlag(int f) {
         flag = f;
+    }
+    public int gerFlag(){
+        return flag;
     }
 }

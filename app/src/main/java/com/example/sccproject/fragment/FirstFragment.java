@@ -40,7 +40,6 @@ public class FirstFragment extends Fragment {
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.REVERSE);
 
-
         btn = (ImageButton) view.findViewById(R.id.playBtn);
         btn.startAnimation(animation);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +74,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(FirstFragment.this.getContext(),"confirm",Toast.LENGTH_SHORT).show();
-                GameHallActivity.replaceFragment();
+                GameHallActivity.replaceFragment(new GameFragment());
                 dialog.cancel();
             }
         });
@@ -92,6 +91,8 @@ public class FirstFragment extends Fragment {
             }
         });
     }
+
+
 
 
 }

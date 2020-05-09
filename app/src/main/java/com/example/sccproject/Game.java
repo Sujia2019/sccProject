@@ -104,6 +104,7 @@ public class Game extends AppCompatActivity {
         public void init() {
             paint = new Paint();
             paint.setAntiAlias(true);
+
             paint.setColor(0xFF000000);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeCap(Paint.Cap.ROUND);
@@ -122,6 +123,7 @@ public class Game extends AppCompatActivity {
             ballX = 0;
             ballY = 0;
             drawPath = false;
+//            ImageView human = (ImageView)findViewById(R)
             createMaze();
         }
 

@@ -1,6 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</FrameLayout>
+    <Button
+        android:id="@+id/button_right"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.4"
+        android:background="@drawable/button_right"
+        app:layout_constraintStart_toEndOf="@+id/button_down"
+        app:layout_constraintTop_toBottomOf="@+id/button_up" />
+
+    <Button
+        android:id="@+id/button_up"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:alpha="0.4"
+        android:background="@drawable/button_up"
+        app:layout_constraintBottom_toTopOf="@+id/button_left"
+        app:layout_constraintStart_toEndOf="@+id/button_left" />
+
+    <Button
+        android:id="@+id/button_left"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="24dp"
+        android:alpha="0.4"
+        android:background="@drawable/button_left"
+        app:layout_constraintBottom_toTopOf="@+id/button_down"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_down"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0.4"
+        android:background="@drawable/button_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_left" />
+
+    <View
+        android:id="@+id/bg_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/bg_day1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/bg_path"
+        android:layout_width="1033dp"
+        android:layout_height="338dp"
+        android:foreground="@drawable/path_smile_start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="96dp"
+        android:layout_height="97dp"
+        android:contentDescription="TODO"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/braveheart" />
+
+    <ImageView
+        android:id="@+id/role"
+        android:layout_width="180dp"
+        android:layout_height="425dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/born17" />
+
+    <ImageView
+        android:id="@+id/monster"
+        android:layout_width="180dp"
+        android:layout_height="245dp"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="32dp"
+        app:srcCompat="@drawable/bat_idle1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/whirlwind"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:alpha="8"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/swift"
+        app:srcCompat="@drawable/whirlwind" />
+
+    <ImageButton
+        android:id="@+id/swift"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        android:alpha="8"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/whirlwind"
+        app:layout_constraintEnd_toStartOf="@+id/strength"
+        app:srcCompat="@drawable/swift_edge" />
+
+    <ImageButton
+        android:id="@+id/strength"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="8"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toTopOf="@+id/swift"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/holy_strength" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:alpha="0.7"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/skill_button_m100" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="270dp"
+        android:layout_height="225dp"
+        android:layout_marginBottom="224dp"
+        android:layout_marginEnd="504dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/role_stuck" />
+
+</android.support.constraint.ConstraintLayout>

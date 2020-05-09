@@ -18,23 +18,30 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".GameHallActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".Info" />-->
-        <!--<activity android:name=".Game" />-->
-        <!--<activity android:name=".GameDiff" />-->
 
         <service android:name=".music.MusicServer"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="">
         </service>
+
+<!--        <activity android:name=".TestActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+        <!--<activity android:name=".Info" />-->
+        <!--<activity android:name=".Game" />-->
+        <!--<activity android:name=".GameDiff" />-->
     </application>
 
 </manifest>

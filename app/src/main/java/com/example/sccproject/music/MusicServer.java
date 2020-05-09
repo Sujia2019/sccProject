@@ -16,26 +16,28 @@ public class MusicServer extends Service {
     private MediaPlayer mediaPlayer;
 
 
+    @Override
+    public void onDestroy() {
+        mediaPlayer.stop();
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-
-    @Override
-    public void onStart(Intent intent, int startId) {
-        super.onStart(intent, startId);
-        if(mediaPlayer==null){
-            mediaPlayer = MediaPlayer.create(this, R.raw.dance);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.start();
-        }
+        throw new UnsupportedOperationException("Not yet implement");
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mediaPlayer.stop();
+    public void onCreate(){
+        super.onCreate();
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mediaPlayer = MediaPlayer.create(MusicServer.this, R.raw.dance);
+        mediaPlayer.start();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
 import com.example.sccproject.model.PlayerInfo;
 
@@ -92,11 +93,11 @@ public class GameFragment extends Fragment {
         adventureButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
                 switch (event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         float x1 = adventureButton.getX();
                         adventureButton.setTranslationY(-20);
+                        GameHallActivity.replaceFragment(new ClimbFragment());
                         break;
                     case MotionEvent.ACTION_UP:
                         float x2 = adventureButton.getX();
@@ -104,8 +105,14 @@ public class GameFragment extends Fragment {
                         adventureButton.setTranslationY(20);
                         break;
                 }
-
                 return true;
+            }
+        });
+        adventureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("adventure");
+                GameHallActivity.replaceFragment(new ClimbFragment());
             }
         });
 
@@ -153,7 +160,6 @@ public class GameFragment extends Fragment {
         public void run() {
             flagAttack = true;
             flagNormal = false;
-
             while (flagAttack){
 
                 soul.setImageResource(soulAttack[currentSoul]);

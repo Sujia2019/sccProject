@@ -14,20 +14,19 @@
 
         <ImageView
             android:id="@+id/cute_soul"
-            android:layout_width="201dp"
+            android:layout_width="200dp"
             android:layout_height="240dp"
             android:layout_marginBottom="96dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/soul"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/soul3"
-            android:layout_marginRight="16dp" />
+            app:srcCompat="@drawable/soul3" />
 
         <ImageView
             android:id="@+id/cute_gost"
             android:layout_width="155dp"
-            android:layout_height="163dp"
+            android:layout_height="160dp"
             android:layout_marginBottom="36dp"
             android:layout_marginStart="16dp"
             android:contentDescription="@string/todo"
@@ -110,7 +109,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/option"
-            android:layout_marginRight="16dp"
             android:contentDescription="@string/options_button" />
 
     </android.support.constraint.ConstraintLayout>
