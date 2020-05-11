@@ -1,6 +1,7 @@
 package com.example.sccproject.fragment;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,21 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameFragment extends Fragment {
     private ImageView soul ;
-    private ImageView ghost;
-    private volatile int currentSoul = 0;
-    private int currentGhost = 0;
-    private int[] souls = new int[]{R.drawable.soul1,R.drawable.soul3,R.drawable.soul2};
-    private int[] soulAttack = new int[]{R.drawable.soul_attack1,
-            R.drawable.soul_attack2,
-            R.drawable.soul_attack3,
-            R.drawable.soul_attack4};
-    private int[] ghosts = new int[]{R.drawable.ghostwalk1,
-            R.drawable.ghostwalk2,
-            R.drawable.ghostwalk3,
-            R.drawable.ghostwalk4};
     private ScheduledExecutorService service ;
-    private static volatile boolean flagNormal = true;
-    private static volatile boolean flagAttack = false;
 
     private ImageButton fightButton ;
     private ImageButton adventureButton ;
@@ -46,6 +33,7 @@ public class GameFragment extends Fragment {
     private ImageButton helpButton ;
     private ImageButton optionButton ;
     private ImageButton headButton ;
+    private AnimationDrawable animationSoul;
 
     public static PlayerInfo player ;
 
@@ -62,7 +50,7 @@ public class GameFragment extends Fragment {
     public void onStart() {
         super.onStart();
         service = Executors.newScheduledThreadPool(10);
-        service.scheduleWithFixedDelay(new SoulNormalTask(),250,250, TimeUnit.MILLISECONDS);
+//        service.scheduleWithFixedDelay(new SoulNormalTask(),250,250, TimeUnit.MILLISECONDS);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -71,23 +59,32 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_game,container,false);
         soul = (ImageView)view.findViewById(R.id.cute_soul);
-
-        soul.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(clicks>20){
-                    flagNormal = false;
-                    flagAttack = false;
-                    soul.setImageResource(R.drawable.soul_die1);
-                }else{
-                    clicks++;
-                    currentSoul = 0;
-                    service.execute(new SoulAttackTask());
-                }
+        soul.setImageDrawable(view.getResources().getDrawable(R.drawable.soul_flash));
+        animationSoul = (AnimationDrawable)soul.getDrawable();
+        animationSoul.start();
+        soul.setOnClickListener(v -> {
+            if(clicks>20){
+                soul.setImageResource(R.drawable.soul_die1);
+            }else{
+                clicks++;
+                animationSoul.stop();
+                soul.setImageDrawable(view.getResources().getDrawable(R.drawable.soul_attack_flash));
+                animationSoul = (AnimationDrawable)soul.getDrawable();
+                animationSoul.setOneShot(true);
+                animationSoul.start();
+                service.schedule(()->{
+                    soul.setImageDrawable(view.getResources().getDrawable(R.drawable.soul_flash));
+                    animationSoul = (AnimationDrawable) soul.getDrawable();
+                    animationSoul.setOneShot(false);
+                    animationSoul.start();
+                },1100,TimeUnit.MILLISECONDS);
             }
         });
 
-        ghost = (ImageView)view.findViewById(R.id.cute_gost);
+        ImageView ghost = (ImageView) view.findViewById(R.id.cute_gost);
+        AnimationDrawable animationGhost = (AnimationDrawable) ghost.getDrawable();
+        animationGhost.start();
+
 
         adventureButton = (ImageButton)view.findViewById(R.id.start_adventure);
         adventureButton.setOnTouchListener(new View.OnTouchListener() {
@@ -138,46 +135,4 @@ public class GameFragment extends Fragment {
         player.setMoney(0);
         player.setRank(0);
     }
-
-
-    private class SoulNormalTask implements Runnable{
-
-        @Override
-        public void run() {//        service.scheduleWithFixedDelay(new SoulAttackTask(),300,300,TimeUnit.MILLISECONDS);
-
-            if(flagNormal){
-                soul.setImageResource(souls[currentSoul]);
-                currentSoul = (currentSoul+1)%souls.length;
-            }
-            ghost.setImageResource(ghosts[currentGhost]);
-            currentGhost = (currentGhost+1)%ghosts.length;
-        }
-    }
-
-    private class SoulAttackTask implements Runnable{
-
-        @Override
-        public void run() {
-            flagAttack = true;
-            flagNormal = false;
-            while (flagAttack){
-
-                soul.setImageResource(soulAttack[currentSoul]);
-                currentSoul = currentSoul+1;
-
-                try {
-                    TimeUnit.MILLISECONDS.sleep(300);
-                    if(currentSoul==soulAttack.length){
-                        currentSoul = 0;
-                        flagAttack = false;
-                        flagNormal = true;
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
-
 }

@@ -30,7 +30,7 @@ public class AnimationUtils {
      * 缩放动画
      * @return
      */
-    public Animation getScaleAnimation(){
+    public static Animation getScaleAnimation(){
         //实例化 主要是缩放效果
         //参数，fromX-动画开始前，x坐标    toX-动画结束后x坐标
         //fromY-动画开始前，Y坐标  toY-动画结束后Y坐标
@@ -50,7 +50,7 @@ public class AnimationUtils {
      * 旋转
      * @return
      */
-    public Animation getRotateAnimation(){
+    public static Animation getRotateAnimation(){
         //实例化RotateAnimation
         //以自身中心为圆心，旋转360度 正值为顺时针旋转，负值为逆时针旋转
         RotateAnimation animation = new RotateAnimation(0,360,
@@ -62,6 +62,8 @@ public class AnimationUtils {
         animation.setDuration(1000);
         return animation;
     }
+
+
 
 
 }

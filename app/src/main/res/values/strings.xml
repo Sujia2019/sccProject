@@ -13,12 +13,18 @@
     <string name="todo">little_goast</string>
     <string name="soul">little_soul</string>
     <string name="migong">TODO</string>
-    <string name="fight">fight</string>
-    <string name="story">back_story</string>
-    <string name="options_button">setting</string>
-    <string name="helpp">helpp</string>
+    <string name="fight">匹配</string>
+    <string name="story">剧情</string>
+    <string name="options_button">用户设置</string>
+    <string name="helpp">帮助</string>
     <string name="head">head</string>
     <string name="loginb">登录</string>
     <string name="reigistb">注册</string>
+    <string name="reigist_code">手机验证码注册</string>
     <string name="confirm">确认</string>
+    <string name="user_id">请输入游戏账号</string>
+    <string name="password">请输入密码</string>
+    <string name="password_again">请再次输入密码</string>
+    <string name="code">请输入验证码</string>
+    <string name="send">发送验证码</string>
 </resources>

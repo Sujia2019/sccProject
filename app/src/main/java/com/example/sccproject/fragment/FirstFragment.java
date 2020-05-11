@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,15 @@ import android.widget.Toast;
 import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by alienware on 2020/4/10.
  */
 
 public class FirstFragment extends Fragment {
     private ImageButton btn;
+    private static int count = 0;
 
     public FirstFragment() {
 
@@ -56,40 +60,53 @@ public class FirstFragment extends Fragment {
     private void alertLogin(){
         AlertDialog.Builder builder= new AlertDialog.Builder(this.getContext());
         View view = View.inflate(this.getContext(),R.layout.layout_login,null);
-        view.setBackgroundResource(R.drawable.title);
-        view.getBackground().setAlpha(200);
-        final AlertDialog dialog = builder.create();
-        dialog.setView(view);
-        dialog.show();
-
+        View view2 = View.inflate(this.getContext(),R.layout.layout_regist,null);
+//        view.setBackgroundResource(R.drawable.title);
+//        view.getBackground().setAlpha(200);
+//        final AlertDialog dialog = builder.create();
+        final SweetAlertDialog dialog = new SweetAlertDialog(getContext(),SweetAlertDialog.NORMAL_TYPE);
         final EditText editText = (EditText) view.findViewById(R.id.userid);
         final EditText editPwd = (EditText) view.findViewById(R.id.userpwd);
+        final EditText editPwd1 = (EditText)view2.findViewById(R.id.userpwd1);
+        final EditText editPwd2 = (EditText)view2.findViewById(R.id.userpwd2);
+        Button bLogin = (Button)view.findViewById(R.id.login);
+
+        bLogin.setOnClickListener(v->{
+            dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+            Toast.makeText(FirstFragment.this.getContext(),"confirm",Toast.LENGTH_SHORT).show();
+            GameHallActivity.replaceFragment(new GameFragment());
+            dialog.cancel();
+        });
+        Button bRegist = (Button)view2.findViewById(R.id.regist_button);
+        bRegist.setOnClickListener(v -> {
+            dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+            Toast.makeText(FirstFragment.this.getContext(),"Register---UserId:"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
+        });
+        Button bRegistCode = (Button)view2.findViewById(R.id.regist_button_code);
+
+        bRegistCode.setOnClickListener(v -> {
+            if(count==0){
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editPwd.setInputType(InputType.TYPE_CLASS_NUMBER);
+                editPwd2.setVisibility(View.GONE);
+                bRegistCode.setText(R.string.send);
+                count++;
+            }else{
+                Toast.makeText(FirstFragment.this.getContext(),"发送验证码"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
+            }
+
+        });
         editText.setEnabled(true);
-
-        Button bConfirm = (Button)view.findViewById(R.id.confirm_button);
-        Button bRegist = (Button)view.findViewById(R.id.regist_button);
-        Button bLogin = (Button)view.findViewById(R.id.login_button);
-
-        bConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FirstFragment.this.getContext(),"confirm",Toast.LENGTH_SHORT).show();
-                GameHallActivity.replaceFragment(new GameFragment());
-                dialog.cancel();
-            }
+        dialog.setConfirmButton(R.string.loginb, sweetAlertDialog -> {
+            dialog.setContentView(view);
+            dialog.setConfirmButton(R.string.loginb,sweetAlertDialog1 -> {
+            });
         });
-        bRegist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FirstFragment.this.getContext(),"Register---UserId:"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
-            }
+        dialog.setNeutralButton(R.string.reigistb, sweetAlertDialog -> {
+            dialog.setContentView(view2);
+            System.out.println("Resistor");
         });
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FirstFragment.this.getContext(),"Login---UserId:"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
-            }
-        });
+        dialog.show();
     }
 
 

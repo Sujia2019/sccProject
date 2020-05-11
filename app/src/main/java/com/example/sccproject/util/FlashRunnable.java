@@ -4,11 +4,13 @@ import android.widget.ImageView;
 
 public class FlashRunnable implements Runnable{
     private int[] res;
+    private int[] resi;
     private int index;
     private ImageView imageView;
     private int length ;
     private static final int ONCE = 1;
     private static final int LOOP = 2;
+
 
     @Override
     public void run() {

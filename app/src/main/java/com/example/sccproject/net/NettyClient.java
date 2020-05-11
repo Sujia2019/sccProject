@@ -63,6 +63,8 @@ public class NettyClient{
 //            System.out.println("xxx");
             GameHallActivity.xxx=e.getMessage();
 //            e.printStackTrace();
+        }finally {
+            group.shutdownGracefully();
         }
     }
 

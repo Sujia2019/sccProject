@@ -2,7 +2,6 @@ package com.example.sccproject;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
@@ -19,6 +18,9 @@ import com.example.sccproject.fragment.FirstFragment;
 import com.example.sccproject.music.MusicServer;
 import com.example.sccproject.net.NettyClient;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 /**
  * 游戏大厅
@@ -32,6 +34,8 @@ public class GameHallActivity extends AppCompatActivity {
     private static boolean isNetOk = false;
     public static String xxx = "xxx";
     private Intent intent;
+    private Timer timer = new Timer();
+    private TimerTask timerTask;
 
     @SuppressLint("CommitTransaction")
     @Override
@@ -49,7 +53,7 @@ public class GameHallActivity extends AppCompatActivity {
         setContentView(R.layout.layout_main);
         fm = getSupportFragmentManager();
 
-        AsyncTask.execute(new Runnable() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 nettyClient = new NettyClient("47.93.225.242",8888);
@@ -61,13 +65,25 @@ public class GameHallActivity extends AppCompatActivity {
                 }
                 Looper.loop();
             }
-        });
+        };
+        timer.schedule(timerTask,10);
+//        AsyncTask.execute(() -> {
+//            nettyClient = new NettyClient("47.93.225.242",8888);
+//            Looper.prepare();
+//            if(!NettyClient.isOk){
+//                toastInternet();
+//            }else{
+//                System.out.println("false");
+//            }
+//            Looper.loop();
+//        });
         createFragment();
     }
 
     @Override
     protected void onDestroy() {
         stopService(intent);
+        timer.cancel();
         super.onDestroy();
     }
 
