@@ -1,6 +1,8 @@
 package com.example.sccproject.factory;
 
-import com.example.sccproject.model.UserInfo;
+
+import com.easyarch.model.code.CODE;
+
 
 public class UserMessageFactory extends MessageFactory {
 
@@ -10,18 +12,18 @@ public class UserMessageFactory extends MessageFactory {
     }
 
     public void userLogin(String userId,String userPwd){
-        UserInfo userInfo = new UserInfo();
+        com.easyarch.model.UserInfo userInfo = new com.easyarch.model.UserInfo();
         userInfo.setUserId(userId);
         userInfo.setUserPwd(userPwd);
         setObject(userInfo);
-        setCode(1);
+        setCode(CODE.LOGIN);
     }
 
     public void userRegist(String userId,String userPwd){
-        UserInfo userInfo = new UserInfo();
+        com.easyarch.model.UserInfo userInfo = new com.easyarch.model.UserInfo();
         userInfo.setUserId(userId);
         userInfo.setUserPwd(userPwd);
-        setCode(0);
+        setCode(CODE.REGIST);
         setObject(userInfo);
     }
 

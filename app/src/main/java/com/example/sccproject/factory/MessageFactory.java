@@ -1,23 +1,21 @@
 package com.example.sccproject.factory;
 
-import com.example.sccproject.model.Message;
-
 public abstract class MessageFactory {
 
-    protected Message message;
+    protected com.easyarch.model.Message message;
 
     public MessageFactory(int code){
-        message = new Message();
+        message = new com.easyarch.model.Message();
         message.setMsgCode(code);
     }
     public MessageFactory(){
-        message = new Message();
+        message = new com.easyarch.model.Message();
     }
 
-    public Message getMessage(){
+    public com.easyarch.model.Message getMessage(){
         return message;
     }
-    public void setMessage(Message message){
+    public void setMessage(com.easyarch.model.Message message){
         this.message = message;
     }
 

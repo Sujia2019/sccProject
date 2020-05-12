@@ -1,10 +1,6 @@
 package com.example.sccproject.net;
 
 import com.example.sccproject.GameHallActivity;
-import com.example.sccproject.model.Message;
-import com.example.sccproject.net.serializer.GsonSerializer;
-import com.example.sccproject.net.serializer.NettyDecoder;
-import com.example.sccproject.net.serializer.NettyEncoder;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -45,8 +41,8 @@ public class NettyClient{
         client.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new NettyEncoder(Message.class,new GsonSerializer()));
-                ch.pipeline().addLast(new NettyDecoder(Message.class,new GsonSerializer()));
+                ch.pipeline().addLast(new NettyEncoder(com.easyarch.model.Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
+                ch.pipeline().addLast(new NettyDecoder(com.easyarch.model.Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
 
                 ch.pipeline().addLast(new SimpleClientHandler());
             }
@@ -68,7 +64,7 @@ public class NettyClient{
         }
     }
 
-    public static void sendMessage(final Message message){
+    public static void sendMessage(final com.easyarch.model.Message message){
         executor.execute(new Runnable() {
             @Override
             public void run() {

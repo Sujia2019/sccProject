@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
-import com.example.sccproject.model.PlayerInfo;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -35,14 +34,14 @@ public class GameFragment extends Fragment {
     private ImageButton headButton ;
     private AnimationDrawable animationSoul;
 
-    public static PlayerInfo player ;
+    public static com.easyarch.model.PlayerInfo player ;
 
 
     private static int clicks = 0;
 
 
     public GameFragment(){
-        player = new PlayerInfo();
+        player = new com.easyarch.model.PlayerInfo();
         loadPlayerInfo();
     }
 

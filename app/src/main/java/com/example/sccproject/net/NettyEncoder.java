@@ -1,4 +1,4 @@
-package com.example.sccproject.net.serializer;
+package com.example.sccproject.net;
 
 /**
  * Created by alienware on 2020/4/10.
@@ -10,9 +10,9 @@ import io.netty.handler.codec.MessageToByteEncoder;
 
 public class NettyEncoder extends MessageToByteEncoder<Object> {
     private Class<?> genericClass;
-    private Serializer serializer;
+    private com.easyarch.serialize.Serializer serializer;
 
-    public NettyEncoder(Class<?> genericClass, Serializer serializer) {
+    public NettyEncoder(Class<?> genericClass, com.easyarch.serialize.Serializer serializer) {
         this.genericClass = genericClass;
         this.serializer = serializer;
     }

@@ -1,9 +1,7 @@
 package com.example.sccproject.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -12,13 +10,11 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.sccproject.R;
-import com.example.sccproject.util.AnimationUtils;
 import com.example.sccproject.util.TurnHandler;
 
 import java.util.concurrent.Executors;
@@ -56,33 +52,6 @@ public class ClimbFragment extends Fragment {
     };
     private int[] roleMove = new int[]{
             R.drawable.run1,R.drawable.run2,R.drawable.run3,R.drawable.run4
-    };
-
-    private int[] monsterNormal = new int[]{
-            R.drawable.bat_idle1,R.drawable.bat_idle2,R.drawable.bat_idle3,R.drawable.bat_idle4
-    };
-    private int[] monsterAttack = new int[]{
-            R.drawable.bat_attack1,R.drawable.bat_attack2,R.drawable.bat_attack3
-    };
-    private int[] monsterDie = new int[]{
-            R.drawable.bat_die1,R.drawable.bat_die2,R.drawable.bat_die3,R.drawable.bat_die4
-    };
-    private int[] role_whirlwinds = new int[]{
-            R.drawable.role_wind1,R.drawable.role_wind2,R.drawable.role_wind3,
-            R.drawable.role_wind4,R.drawable.role_wind5,R.drawable.role_wind6
-    };
-    private int[] role_swifts = new int[]{
-            R.drawable.role_swift1,R.drawable.role_swift2,R.drawable.role_swift3,
-            R.drawable.role_swift4,R.drawable.role_swift5,R.drawable.role_swift6,
-    };
-    private int[] role_buff = new int[]{
-            R.drawable.buff1,R.drawable.buff2,R.drawable.buff3,
-            R.drawable.buff4,R.drawable.buff5
-    };
-    private int[] role_combo = new int[]{
-            R.drawable.role_combo1,R.drawable.role_combo2,R.drawable.role_combo3,
-            R.drawable.role_combo4,R.drawable.role_combo5,R.drawable.role_combo6,
-            R.drawable.role_combo7,R.drawable.role_combo8,R.drawable.role_combo9
     };
     private AnimationDrawable animationMonster;
     private AnimationDrawable animationRole;
