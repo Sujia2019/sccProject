@@ -4,13 +4,18 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.easyarch.model.PlayerInfo;
 import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
 
@@ -32,9 +37,12 @@ public class GameFragment extends Fragment {
     private ImageButton helpButton ;
     private ImageButton optionButton ;
     private ImageButton headButton ;
+    private TextView timer;
+    private ImageButton matchCancel;
+    private FrameLayout layoutMatch;
     private AnimationDrawable animationSoul;
 
-    public static com.easyarch.model.PlayerInfo player ;
+    public static PlayerInfo player ;
 
 
     private static int clicks = 0;
@@ -112,8 +120,22 @@ public class GameFragment extends Fragment {
             }
         });
 
+        matchCancel = (ImageButton)view.findViewById(R.id.match_cancle);
+        timer = (TextView)view.findViewById(R.id.match_timer);
+
+
         storyButton = (ImageButton)view.findViewById(R.id.story);
+
         fightButton = (ImageButton)view.findViewById(R.id.battle);
+//        layoutMatch = (FrameLayout)view.findViewById(R.layout.);
+        fightButton.setOnClickListener(v -> {
+            Toast mToast = new Toast(getContext());
+            mToast.setDuration(Toast.LENGTH_SHORT);
+            mToast.setGravity(Gravity.TOP, 0, 0);
+//            View toastView = LayoutInflater.from(getContext()).inflate( null);
+//            mToast.setView(toastView);
+            mToast.show();
+        });
         headButton = (ImageButton)view.findViewById(R.id.player_head);
         helpButton = (ImageButton)view.findViewById(R.id.help);
         optionButton = (ImageButton)view.findViewById(R.id.options);

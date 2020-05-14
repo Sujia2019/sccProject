@@ -1,29 +1,26 @@
 package com.example.sccproject.factory;
 
+import com.easyarch.model.Message;
+import com.example.sccproject.net.NettyClient;
+
 public abstract class MessageFactory {
-
-    protected com.easyarch.model.Message message;
-
-    public MessageFactory(int code){
-        message = new com.easyarch.model.Message();
-        message.setMsgCode(code);
+    protected Message msg;
+    void sendMessage(){
+        NettyClient.sendMessage(msg);
     }
-    public MessageFactory(){
-        message = new com.easyarch.model.Message();
+    void setMsgCode(int code) {
+        this.msg.setMsgCode(code);
     }
 
-    public com.easyarch.model.Message getMessage(){
-        return message;
-    }
-    public void setMessage(com.easyarch.model.Message message){
-        this.message = message;
+    void setObject(Object object) {
+        this.msg.setObj(object);
     }
 
-    void setObject(Object obj){
-        this.message.setObj(obj);
+    public Message getMsg() {
+        return msg;
     }
 
-    void setCode(int code){
-        this.message.setMsgCode(code);
+    public void setMsg(Message msg) {
+        this.msg = msg;
     }
 }

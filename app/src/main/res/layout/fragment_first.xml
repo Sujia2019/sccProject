@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/play"
-            android:layout_marginRight="64dp" />
+            tools:visibility="invisible" />
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

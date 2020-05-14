@@ -60,16 +60,29 @@
             android:text="@string/reigistb"
             android:textSize="20sp"
             android:textStyle="bold" />
+
         <Button
-            android:layout_marginTop="20dp"
             android:id="@+id/regist_button_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:background="#00FF0000"
             android:text="@string/reigist_code"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/regist_button_return"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="#00FF0000"
+            android:text="@string/return_regist"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:visibility="invisible" />
 
     </LinearLayout>
 

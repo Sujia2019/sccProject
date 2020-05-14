@@ -1,30 +1,38 @@
 package com.example.sccproject.factory;
 
 
+import com.easyarch.model.UserInfo;
 import com.easyarch.model.code.CODE;
-
 
 public class UserMessageFactory extends MessageFactory {
 
-
-    public UserMessageFactory(int code) {
-        super(code);
-    }
-
-    public void userLogin(String userId,String userPwd){
-        com.easyarch.model.UserInfo userInfo = new com.easyarch.model.UserInfo();
+    private void userDefine(String userId, String userPwd){
+        UserInfo userInfo = new UserInfo();
         userInfo.setUserId(userId);
         userInfo.setUserPwd(userPwd);
         setObject(userInfo);
-        setCode(CODE.LOGIN);
+    }
+    public void userNormalLogin(String userId,String userPwd){
+        userDefine(userId,userPwd);
+        setMsgCode(CODE.LOGIN);
+        sendMessage();
     }
 
-    public void userRegist(String userId,String userPwd){
-        com.easyarch.model.UserInfo userInfo = new com.easyarch.model.UserInfo();
-        userInfo.setUserId(userId);
-        userInfo.setUserPwd(userPwd);
-        setCode(CODE.REGIST);
-        setObject(userInfo);
+    public void userNormalRegist(String userId,String userPwd){
+        userDefine(userId,userPwd);
+        setMsgCode(CODE.REGIST);
+        sendMessage();
     }
+//    public void userCodeLogin(String userId,String userPwd){
+//        userDefine(userId,userPwd);
+//        setMsgCode(CODE.LOGIN_PHONE);
+//        sendMessage();
+//    }
+//
+//    public void userCodeRegist(String userId,String userPwd){
+//        userDefine(userId,userPwd);
+//        setMsgCode(CODE.REGIST_PHONE);
+//        sendMessage();
+//    }
 
 }

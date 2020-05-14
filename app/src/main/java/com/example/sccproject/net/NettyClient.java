@@ -1,5 +1,6 @@
 package com.example.sccproject.net;
 
+import com.easyarch.model.Message;
 import com.example.sccproject.GameHallActivity;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -25,7 +26,7 @@ public class NettyClient{
     private static volatile ChannelFuture future;
     private static ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,200,
             TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(5));
-    public static boolean isOk;
+    public static volatile boolean isOk = false;
     public NettyClient(String host,int port){
         this.host = host;
         this.port = port;
@@ -41,8 +42,8 @@ public class NettyClient{
         client.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new NettyEncoder(com.easyarch.model.Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
-                ch.pipeline().addLast(new NettyDecoder(com.easyarch.model.Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
+                ch.pipeline().addLast(new NettyEncoder(Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
+                ch.pipeline().addLast(new NettyDecoder(Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
 
                 ch.pipeline().addLast(new SimpleClientHandler());
             }
@@ -53,18 +54,18 @@ public class NettyClient{
             future = client.connect(host,port).sync();
             System.out.println("------connect------");
             isOk = true;
-            GameHallActivity.xxx="Netty";
+            GameHallActivity.xxx="网络连接成功";
         } catch (Exception e) {
-            isOk = false;
+//            isOk = false;
 //            System.out.println("xxx");
-            GameHallActivity.xxx=e.getMessage();
+//            GameHallActivity.xxx=e.getMessage();
 //            e.printStackTrace();
         }finally {
             group.shutdownGracefully();
         }
     }
 
-    public static void sendMessage(final com.easyarch.model.Message message){
+    public static void sendMessage(final Message message){
         executor.execute(new Runnable() {
             @Override
             public void run() {

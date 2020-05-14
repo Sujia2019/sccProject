@@ -5,6 +5,7 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 
 /**
  * Created by alienware on 2020/4/10.
@@ -23,6 +24,13 @@ public class AnimationUtils {
         animation.setInterpolator(new DecelerateInterpolator());
         //设置动画执行时间
         animation.setDuration(1000);
+        return animation;
+    }
+    //移动
+    public static Animation getTranAnimation(float x,float y){
+        Animation animation = new TranslateAnimation(0,x,0,y);
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.setDuration(500);
         return animation;
     }
 

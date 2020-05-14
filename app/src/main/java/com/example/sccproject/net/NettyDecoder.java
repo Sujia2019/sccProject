@@ -4,6 +4,8 @@ package com.example.sccproject.net;
  * Created by alienware on 2020/4/10.
  */
 
+import com.easyarch.serialize.Serializer;
+
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -12,9 +14,9 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 
 public class NettyDecoder extends ByteToMessageDecoder {
     private Class<?> genericClass;
-    private com.easyarch.serialize.Serializer serializer;
+    private Serializer serializer;
 
-    public NettyDecoder(Class<?> genericClass, final com.easyarch.serialize.Serializer serializer) {
+    public NettyDecoder(Class<?> genericClass, final Serializer serializer) {
         this.genericClass = genericClass;
         this.serializer = serializer;
     }
