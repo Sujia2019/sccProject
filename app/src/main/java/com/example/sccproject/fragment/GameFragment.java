@@ -3,15 +3,18 @@ package com.example.sccproject.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +42,11 @@ public class GameFragment extends Fragment {
     private ImageButton headButton ;
     private TextView timer;
     private ImageButton matchCancel;
-    private FrameLayout layoutMatch;
+    private ConstraintLayout layoutMatch;
     private AnimationDrawable animationSoul;
+    private LinearLayout infoLayout;
+    private static boolean isMatching = false;
+    private static boolean isInfoShow = false;
 
     public static PlayerInfo player ;
 
@@ -115,28 +121,79 @@ public class GameFragment extends Fragment {
         adventureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("adventure");
-                GameHallActivity.replaceFragment(new ClimbFragment());
+                if(isMatching){
+                    Toast t = Toast.makeText(getContext(),"~正在匹配不可以开启闯关(＾Ｕ＾)ノ~ＹＯ",Toast.LENGTH_LONG);
+                    t.setGravity(Gravity.CENTER,0,0);
+                    t.show();
+                }else{
+                    System.out.println("adventure");
+                    GameHallActivity.replaceFragment(new ClimbFragment());
+                }
             }
         });
 
         matchCancel = (ImageButton)view.findViewById(R.id.match_cancle);
+        matchCancel.setOnClickListener(v->{
+            isMatching=false;
+            //显示匹配布局
+            layoutMatch.setVisibility(View.VISIBLE);
+            //设置移动animation
+            final Animation animation = new TranslateAnimation(0,0,0,-160);
+            animation.setDuration(500);
+            //启用
+            layoutMatch.startAnimation(animation);
+            layoutMatch.setVisibility(View.INVISIBLE);
+        });
+
         timer = (TextView)view.findViewById(R.id.match_timer);
 
 
         storyButton = (ImageButton)view.findViewById(R.id.story);
 
         fightButton = (ImageButton)view.findViewById(R.id.battle);
-//        layoutMatch = (FrameLayout)view.findViewById(R.layout.);
+        layoutMatch = (ConstraintLayout)view.findViewById(R.id.layout_match);
+        layoutMatch.setVisibility(View.INVISIBLE);
         fightButton.setOnClickListener(v -> {
-            Toast mToast = new Toast(getContext());
-            mToast.setDuration(Toast.LENGTH_SHORT);
-            mToast.setGravity(Gravity.TOP, 0, 0);
-//            View toastView = LayoutInflater.from(getContext()).inflate( null);
-//            mToast.setView(toastView);
-            mToast.show();
+            if(!isMatching){
+                //显示匹配布局
+                layoutMatch.setVisibility(View.VISIBLE);
+                //设置移动animation
+                final Animation animation = new TranslateAnimation(0,0,-160,0);
+                animation.setDuration(500);
+                //启用
+                layoutMatch.startAnimation(animation);
+                isMatching=true;
+            }else{
+                Toast t = Toast.makeText(this.getContext(),"~正在匹配中不可以重复匹配(＾Ｕ＾)ノ~ＹＯ",Toast.LENGTH_LONG);
+                t.setGravity(Gravity.CENTER,0,0);
+                t.show();
+            }
         });
+
+        infoLayout = (LinearLayout)view.findViewById(R.id.info_layout);
+        infoLayout.setVisibility(View.INVISIBLE);
         headButton = (ImageButton)view.findViewById(R.id.player_head);
+        headButton.setOnClickListener(v->{
+            if(!isInfoShow){
+                //显示info信息布局
+                infoLayout.setVisibility(View.VISIBLE);
+                //设置移动animation
+                final Animation animation = new TranslateAnimation(-300,0,0,0);
+                animation.setDuration(500);
+                //启用
+                infoLayout.startAnimation(animation);
+                isInfoShow=true;
+            }else{
+                //显示info信息布局
+                //设置移动animation
+                final Animation animation = new TranslateAnimation(0,-300,0,0);
+                animation.setDuration(500);
+                //启用
+                infoLayout.startAnimation(animation);
+                infoLayout.setVisibility(View.INVISIBLE);
+                isInfoShow = false;
+            }
+        });
         helpButton = (ImageButton)view.findViewById(R.id.help);
         optionButton = (ImageButton)view.findViewById(R.id.options);
 

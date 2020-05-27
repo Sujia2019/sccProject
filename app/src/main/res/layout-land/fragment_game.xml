@@ -15,10 +15,10 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/layout_match"
             android:layout_width="match_parent"
-            android:layout_height="83dp"
+            android:layout_height="80dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone">
+            tools:visibility="invisible">
 
             <ImageView
                 android:id="@+id/match_timer_bg"
@@ -84,8 +84,8 @@
 
         <ImageButton
             android:id="@+id/player_head"
-            android:layout_width="125dp"
-            android:layout_height="126dp"
+            android:layout_width="99dp"
+            android:layout_height="93dp"
             android:background="#00FF0000"
             android:contentDescription="@string/head"
             android:scaleType="fitCenter"
@@ -153,6 +153,50 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/soul_flash" />
+
+        <LinearLayout
+            android:id="@+id/info_layout"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="8dp"
+            android:background="#3EFFFFFF"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/player_head"
+            tools:visibility="invisible">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp"
+                android:text="昵称："
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@color/topic"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="金币："
+                android:textAlignment="viewStart"
+                android:textColor="?android:attr/colorPressedHighlight"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="闯关："
+                android:textAlignment="viewStart"
+                android:textColor="@color/main_cyan_color"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

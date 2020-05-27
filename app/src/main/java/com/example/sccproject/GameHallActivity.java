@@ -9,9 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -45,13 +42,6 @@ public class GameHallActivity extends AppCompatActivity {
         intent = new Intent(GameHallActivity.this, MusicServer.class);
         super.onCreate(savedInstanceState);
         startService(intent);
-
-        final Animation animation = new AlphaAnimation(1,0);
-        animation.setDuration(500);
-        animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(Animation.INFINITE);
-        animation.setRepeatMode(Animation.REVERSE);
-
         setContentView(R.layout.layout_main);
         fm = getSupportFragmentManager();
         FirstFragment fragment = (FirstFragment)createFragment();
