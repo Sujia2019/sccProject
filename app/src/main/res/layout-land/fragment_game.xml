@@ -60,8 +60,8 @@
             android:id="@+id/battle"
             android:layout_width="100dp"
             android:layout_height="95dp"
-            android:layout_marginBottom="56dp"
-            android:layout_marginStart="32dp"
+            android:layout_marginBottom="64dp"
+            android:layout_marginStart="24dp"
             android:background="#00FF0000"
             android:contentDescription="@string/fight"
             android:scaleType="fitCenter"
@@ -73,8 +73,8 @@
             android:id="@+id/story"
             android:layout_width="100dp"
             android:layout_height="95dp"
-            android:layout_marginBottom="56dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginBottom="64dp"
+            android:layout_marginStart="24dp"
             android:background="#00FF0000"
             android:contentDescription="@string/story"
             android:scaleType="fitCenter"
@@ -91,7 +91,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/braveheart" />
+            app:srcCompat="@drawable/characters_head" />
 
         <ImageButton
             android:id="@+id/help"
@@ -147,8 +147,7 @@
             android:id="@+id/cute_soul"
             android:layout_width="200dp"
             android:layout_height="240dp"
-            android:layout_marginBottom="96dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="88dp"
             android:contentDescription="@string/soul"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

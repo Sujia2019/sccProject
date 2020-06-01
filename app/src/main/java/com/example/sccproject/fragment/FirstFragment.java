@@ -21,10 +21,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.easyarch.model.UserInfo;
-import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
-import com.example.sccproject.factory.UserMessageFactory;
+import com.example.sccproject.service.UserMessageFactory;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -38,6 +39,7 @@ public class FirstFragment extends Fragment {
     private static boolean isCodeRegist=false;
     private static boolean isCodeLogin=false;
     private UserMessageFactory userFactory;
+
 //    public
     public Handler mHandler = new Handler() {
         @Override
@@ -53,6 +55,15 @@ public class FirstFragment extends Fragment {
             userFactory = new UserMessageFactory();
         }
     };
+    private EditText editLogin;
+    private EditText editRegister;
+    private Button returnRegister;
+    private EditText editPwd;
+    private EditText editPwd1;
+    private EditText editPwd2;
+    private Button sendCode;
+    private Button bRegistCode;
+
     public FirstFragment() {
 
     }
@@ -64,14 +75,12 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first,container,false);
+        //网络连接正常后点击play开始登录注册
         btn = (ImageButton) view.findViewById(R.id.playBtn);
         btn.setVisibility(View.INVISIBLE);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.clearAnimation();
-                alertLogin();
-            }
+        btn.setOnClickListener(v -> {
+            v.clearAnimation();
+            alertLogin();
         });
 
         return view;
@@ -79,17 +88,30 @@ public class FirstFragment extends Fragment {
 
     private void alertLogin(){
         AlertDialog.Builder builder= new AlertDialog.Builder(this.getContext());
+        //两个视图 登录/注册的对话框
         View view = View.inflate(this.getContext(),R.layout.layout_login,null);
         View view2 = View.inflate(this.getContext(),R.layout.layout_regist,null);
         final SweetAlertDialog dialog = new SweetAlertDialog(getContext(),SweetAlertDialog.NORMAL_TYPE);
-        final EditText editText = (EditText) view.findViewById(R.id.userid);//登录id
-        final EditText editText1 = (EditText)view2.findViewById(R.id.userid);//注册id
-        final EditText editPwd = (EditText) view.findViewById(R.id.userpwd);//登录密码
-        final EditText editPwd1 = (EditText)view2.findViewById(R.id.userpwd1);//注册密码
-        final EditText editPwd2 = (EditText)view2.findViewById(R.id.userpwd2);
-        final Button sendCode = (Button)view.findViewById(R.id.button_send);
+        //输入登录的userId
+        editLogin = (EditText) view.findViewById(R.id.userid);//登录id
+        //输入注册的userId
+        editRegister = (EditText)view2.findViewById(R.id.userid);
+        //登录密码
+        editPwd = (EditText) view.findViewById(R.id.userpwd);
+        //注册密码
+        editPwd1 = (EditText)view2.findViewById(R.id.userpwd1);
+        //确认密码
+        editPwd2 = (EditText)view2.findViewById(R.id.userpwd2);
+        sendCode = (Button)view.findViewById(R.id.button_send);
         sendCode.setVisibility(View.INVISIBLE);
+
+        returnRegister = (Button)view2.findViewById(R.id.regist_button_return);
+        returnRegister.setVisibility(View.INVISIBLE);
+        //注册按钮
+        Button bRegister = (Button) view2.findViewById(R.id.regist_button);
+
         final Button loginCode = (Button)view.findViewById(R.id.login_code);
+        //选择登陆方式
         loginCode.setOnClickListener(v->{
             if(isCodeLogin){
                 editPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -101,56 +123,78 @@ public class FirstFragment extends Fragment {
                 editPwd.setInputType(InputType.TYPE_CLASS_NUMBER);
                 editPwd.setHint(R.string.code);
                 sendCode.setVisibility(View.VISIBLE);
+                sendCode.setOnClickListener(new SendCodeLogin());
                 loginCode.setText(R.string.return_login);
                 isCodeLogin=true;
             }
         });
-        Button bLogin = (Button)view.findViewById(R.id.login);
 
+
+        //普通登录
+        Button bLogin = (Button)view.findViewById(R.id.login);
         bLogin.setOnClickListener(v->{
+            String userId = editLogin.getText().toString();
+            String pwd = editPwd.getText().toString();
+            System.out.println(userId);
+            System.out.println(pwd);
+            //业务层发送登录请求
+            userFactory.userNormalLogin(userId,pwd);
+            //开启异步线程等待服务器返回
+
             dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
             Toast.makeText(FirstFragment.this.getContext(),"confirm",Toast.LENGTH_SHORT).show();
-            GameHallActivity.replaceFragment(new GameFragment());
-            dialog.cancel();
+//            //进入游戏界面
+//            GameHallActivity.replaceFragment(new GameFragment());
+//            dialog.cancel();
         });
-        Button bRegist = (Button)view2.findViewById(R.id.regist_button);
-        bRegist.setOnClickListener(v->{
-            if(isCodeRegist){
-                UserInfo u = new UserInfo();
-                u.setUserId(editText1.getText().toString());
-                u.setUserPwd(editPwd1.getText().toString());
 
+        bRegister.setOnClickListener(v->{
+            String userId = editRegister.getText().toString();
+            String pwd = editPwd1.getText().toString();
+            if(pwd.length()==0||userId.length()==0){
+                Toast.makeText(FirstFragment.this.getContext(),"输入不可为空o~"+editLogin.getText().toString(),Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        bRegist.setOnClickListener(v -> {
+            //普通注册
+           if(!isCodeRegist){
+               if(!pwd.equals(editPwd2.getText().toString())){
+                    Toast.makeText(FirstFragment.this.getContext(),"两次密码输入不一致o~"+editLogin.getText().toString(),Toast.LENGTH_SHORT).show();
+               }
+               else{
+                   userFactory.userNormalRegist(userId,pwd);
+               }
+            }
+           //手机号注册
+           else{
+               if(!isPhone(userId)){
+                   Toast.makeText(FirstFragment.this.getContext(),"手机号不符请重新输入o~"+editLogin.getText().toString(),Toast.LENGTH_SHORT).show();
+                   return;
+               }
+               userFactory.userCodeRegist(userId,pwd);
+           }
+            //异步接收服务器返回
+            //
             dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-            Toast.makeText(FirstFragment.this.getContext(),"Register---UserId:"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(FirstFragment.this.getContext(),"Register---UserId:"+editLogin.getText().toString(),Toast.LENGTH_SHORT).show();
         });
-        Button bRegistCode = (Button)view2.findViewById(R.id.regist_button_code);
-        bRegistCode.setOnClickListener(v -> {
-            if(isCodeRegist){
-                //发送验证码
-                Toast.makeText(FirstFragment.this.getContext(),"发送验证码"+editText.getText().toString(),Toast.LENGTH_SHORT).show();
-            }
-            editText1.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editPwd1.setInputType(InputType.TYPE_CLASS_NUMBER);
-            editPwd1.setHint(R.string.code);
-            editPwd2.setVisibility(View.GONE);
-            bRegistCode.setText(R.string.send);
-            bRegistCode.setEnabled(false);
-            isCodeRegist=true;
 
+        bRegistCode = (Button)view2.findViewById(R.id.regist_button_code);
+        bRegistCode.setOnClickListener(new ChangeRegistWay());
+        returnRegister.setVisibility(View.INVISIBLE);
+        //返回普通登录
+        returnRegister.setOnClickListener(v -> {
+            if(isCodeRegist){
+                editPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                editPwd.setText(R.string.password);
+                editPwd2.setVisibility(View.VISIBLE);
+                bRegistCode.setEnabled(true);
+                bRegistCode.setText(R.string.reigist_code);
+                isCodeRegist=false;
+                returnRegister.setVisibility(View.INVISIBLE);
+                bRegistCode.setOnClickListener(new ChangeRegistWay());
+            }
         });
-        Button returnRegist = (Button)view2.findViewById(R.id.regist_button_return);
-        returnRegist.setOnClickListener(v -> {
-            isCodeRegist=false;
-            editPwd.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            editPwd.setText(R.string.password);
-            editPwd2.setVisibility(View.VISIBLE);
-            bRegistCode.setEnabled(true);
-            bRegistCode.setText(R.string.reigist_code);
-        });
-        editText.setEnabled(true);
+        editLogin.setEnabled(true);
         dialog.setConfirmButton(R.string.loginb, sweetAlertDialog -> {
             dialog.setContentView(view);
             dialog.setConfirmButton(R.string.loginb,sweetAlertDialog1 -> {
@@ -162,7 +206,7 @@ public class FirstFragment extends Fragment {
         });
         dialog.show();
 
-        editText1.addTextChangedListener(new TextWatcher() {
+        editLogin.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -176,8 +220,69 @@ public class FirstFragment extends Fragment {
                 bRegistCode.setEnabled(true);
             }
         });
+
+        editRegister.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                bRegistCode.setEnabled(true);
+                if(isCodeRegist){
+                    bRegistCode.setOnClickListener(new SendCodeRegister());
+                }
+            }
+        });
+
     }
 
+
+    public static boolean isPhone(String inputText) {
+        Pattern p = Pattern.compile("^((14[0-9])|(13[0-9])|(15[0-9])|(18[0-9])|(17[0-9]))\\d{8}$");
+        Matcher m = p.matcher(inputText);
+        return m.matches();
+    }
+
+
+    private class SendCodeLogin implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String phoneNumber = editLogin.getText().toString();
+            userFactory.userCodeLogin(phoneNumber);
+        }
+    }
+
+    private class SendCodeRegister implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            String phoneNumber = editRegister.getText().toString();
+            userFactory.userCodeRegist(phoneNumber);
+        }
+    }
+
+    private class ChangeRegistWay implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            editRegister.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editPwd1.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editPwd1.setHint(R.string.code);
+            editPwd2.setVisibility(View.GONE);
+            bRegistCode.setText(R.string.send);
+            bRegistCode.setEnabled(false);
+            isCodeRegist=true;
+            returnRegister.setVisibility(View.VISIBLE);
+        }
+    }
 
 
 

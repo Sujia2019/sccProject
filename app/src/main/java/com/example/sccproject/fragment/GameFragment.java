@@ -178,7 +178,7 @@ public class GameFragment extends Fragment {
                 //显示info信息布局
                 infoLayout.setVisibility(View.VISIBLE);
                 //设置移动animation
-                final Animation animation = new TranslateAnimation(-300,0,0,0);
+                final Animation animation = new TranslateAnimation(-400,0,0,0);
                 animation.setDuration(500);
                 //启用
                 infoLayout.startAnimation(animation);
@@ -186,7 +186,7 @@ public class GameFragment extends Fragment {
             }else{
                 //显示info信息布局
                 //设置移动animation
-                final Animation animation = new TranslateAnimation(0,-300,0,0);
+                final Animation animation = new TranslateAnimation(0,-400,0,0);
                 animation.setDuration(500);
                 //启用
                 infoLayout.startAnimation(animation);

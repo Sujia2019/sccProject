@@ -1,6 +1,7 @@
 package com.example.sccproject.net;
 
 import com.easyarch.model.Message;
+import com.easyarch.serialize.imp.ProtoStuffSerializer;
 import com.example.sccproject.GameHallActivity;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -20,30 +21,29 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * Created by alienware on 2020/4/10.
  */
 
-public class NettyClient{
+public class NettyClient implements Runnable{
     private String host;
     private int port;
     private static volatile ChannelFuture future;
-    private static ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,200,
+    public static ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,200,
             TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(5));
     public static volatile boolean isOk = false;
     public NettyClient(String host,int port){
         this.host = host;
         this.port = port;
-        init();
     }
-    private void init() {
+
+    @Override
+    public void run() {
         Bootstrap client = new Bootstrap();
         EventLoopGroup group = new NioEventLoopGroup();
         client.group(group);
-
         client.channel(NioSocketChannel.class);
-
         client.handler(new ChannelInitializer<SocketChannel>() {
             @Override
             protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new NettyEncoder(Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
-                ch.pipeline().addLast(new NettyDecoder(Message.class,new com.easyarch.serialize.imp.GsonSerializer()));
+                ch.pipeline().addLast(new NettyEncoder(Message.class,new ProtoStuffSerializer()));
+                ch.pipeline().addLast(new NettyDecoder(Message.class,new ProtoStuffSerializer()));
 
                 ch.pipeline().addLast(new SimpleClientHandler());
             }
@@ -56,24 +56,18 @@ public class NettyClient{
             isOk = true;
             GameHallActivity.xxx="网络连接成功";
         } catch (Exception e) {
-//            isOk = false;
-//            System.out.println("xxx");
-//            GameHallActivity.xxx=e.getMessage();
-//            e.printStackTrace();
-        }finally {
+            e.printStackTrace();
+            isOk=false;
             group.shutdownGracefully();
         }
     }
 
     public static void sendMessage(final Message message){
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    future.channel().writeAndFlush(message).sync();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        executor.execute(() -> {
+            try {
+                future.channel().writeAndFlush(message).sync();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         });
     }

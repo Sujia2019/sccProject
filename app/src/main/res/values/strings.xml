@@ -27,7 +27,8 @@
     <string name="password_again">请再次输入密码</string>
     <string name="code">请输入验证码</string>
     <string name="send">发送验证码</string>
-    <string name="return_regist">返回注册</string>
+    <string name="return_regist">返回普通注册</string>
     <string name="return_login">返回普通登录</string>
     <string name="code_login">验证码登录</string>
+
 </resources>

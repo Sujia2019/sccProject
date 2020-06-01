@@ -65,13 +65,16 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="96dp"
-        android:layout_height="97dp"
+        android:id="@+id/role_head"
+        android:layout_width="90dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="60dp"
         android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="@+id/top_ui"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/braveheart" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/graviel_symbol" />
 
     <ImageView
         android:id="@+id/role"
@@ -98,11 +101,12 @@
         android:id="@+id/whirlwind"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginTop="16dp"
         android:alpha="0.8"
         android:background="@drawable/button_normal"
         android:scaleType="centerInside"
-        app:layout_constraintEnd_toStartOf="@+id/strength"
+        app:layout_constraintEnd_toStartOf="@+id/combo_attack"
         app:layout_constraintTop_toBottomOf="@+id/strength"
         app:srcCompat="@drawable/whirlwind"
         tools:visibility="visible" />
@@ -111,20 +115,21 @@
         android:id="@+id/swift"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginStart="16dp"
         android:alpha="0.8"
         android:background="@drawable/button_normal"
         android:elevation="5dp"
         android:scaleType="centerInside"
-        app:layout_constraintBottom_toTopOf="@+id/strength"
+        app:layout_constraintBottom_toTopOf="@+id/combo_attack"
         app:layout_constraintStart_toEndOf="@+id/strength"
         app:srcCompat="@drawable/swift_edge"
         tools:visibility="visible" />
 
     <ImageButton
         android:id="@+id/combo_attack"
-        android:layout_width="111dp"
-        android:layout_height="114dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:alpha="0.7"
         android:background="@drawable/button_normal"
         android:scaleType="centerCrop"
@@ -155,5 +160,82 @@
         app:layout_constraintBottom_toBottomOf="@+id/role"
         app:layout_constraintEnd_toStartOf="@+id/monster"
         app:srcCompat="@drawable/role_stuck" />
+
+    <ImageView
+        android:id="@+id/top_ui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="272dp"
+        android:alpha="0.9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/top_ui" />
+
+    <ImageView
+        android:id="@+id/role_mp"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintStart_toStartOf="@+id/top_ui"
+        app:layout_constraintTop_toBottomOf="@+id/role_hp"
+        app:srcCompat="@drawable/role_mp" />
+
+    <ImageView
+        android:id="@+id/role_hp"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintStart_toStartOf="@+id/top_ui"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/role_hp" />
+
+    <ImageView
+        android:id="@+id/distance"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="54dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/top_ui"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/distance_bar" />
+
+    <ImageView
+        android:id="@+id/dis_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/distance"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/distance_point" />
+
+    <TextView
+        android:id="@+id/c_name"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="casual"
+        android:text="角色姓名"
+        android:textColor="#F8F8F8"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/role_head"
+        app:layout_constraintTop_toBottomOf="@+id/distance" />
+
+    <TextView
+        android:id="@+id/c_time"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:text="时间"
+        android:textColor="#F8F8F8"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/c_name"
+        app:layout_constraintTop_toBottomOf="@+id/distance" />
 
 </android.support.constraint.ConstraintLayout>

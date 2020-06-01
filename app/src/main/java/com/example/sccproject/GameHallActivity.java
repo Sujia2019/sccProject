@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.sccproject.fragment.FirstFragment;
@@ -18,6 +17,9 @@ import com.example.sccproject.net.NettyClient;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -27,13 +29,10 @@ import java.util.TimerTask;
 public class GameHallActivity extends AppCompatActivity {
 
     private static FragmentManager fm ;
-    private ImageButton btn ;
-    private static NettyClient nettyClient;
-    private static boolean isNetOk = false;
     public static String xxx = "正在连接网络";
     private Intent intent;
     private Timer timer = new Timer();
-    private TimerTask timerTask;
+    public static ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
 
 
     @SuppressLint("CommitTransaction")
@@ -46,28 +45,27 @@ public class GameHallActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
         FirstFragment fragment = (FirstFragment)createFragment();
         toastInternet();
-        timerTask = new TimerTask() {
+        //网络
+        new Thread(new NettyClient("47.93.225.242", 8888)).start();
+        //网络检查
+        service.scheduleWithFixedDelay(new Beat(),3,3, TimeUnit.SECONDS);
+
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                nettyClient = new NettyClient("47.93.225.242",8888);
                 Looper.prepare();
-                try {
-                    //模拟网络连接 成功的话才会显示PLAY按钮
-                    Thread.sleep(600);
-//                    if(NettyClient.isOk){
+                while (true) {
+                    if (NettyClient.isOk) {
                         Message msg = Message.obtain();
                         fragment.mHandler.sendMessage(msg);
-//                    }else{
-//                        xxx="网络连接超时";
-//                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                        break;
+                    }
                 }
                 toastInternet();
                 Looper.loop();
             }
         };
-        timer.schedule(timerTask,10);
+        timer.schedule(timerTask,1000);
 //        AsyncTask.execute(() -> {
 //            nettyClient = new NettyClient("47.93.225.242",8888);
 //            Looper.prepare();
@@ -105,5 +103,14 @@ public class GameHallActivity extends AppCompatActivity {
         Toast.makeText(GameHallActivity.this,xxx,Toast.LENGTH_SHORT).show();
     }
 
+    static class Beat implements Runnable{
+
+        @Override
+        public void run() {
+            if(!NettyClient.isOk){
+                new Thread(new NettyClient("47.93.225.242", 8888)).start();
+            }
+        }
+    }
 
 }
