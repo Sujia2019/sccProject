@@ -1,4 +1,4 @@
-package com.example.sccproject;
+package com.example.sccproject.Mze;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,11 +12,13 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.sccproject.R;
+
 import java.util.Random;
 import java.util.Stack;
 
 
-public class GameDiff extends AppCompatActivity {
+public class Game extends AppCompatActivity {
     public int widths;
     public Button btn_top, btn_down, btn_left, btn_right, btn_play, btn_pause;
     @Override
@@ -68,7 +70,7 @@ public class GameDiff extends AppCompatActivity {
                 myView.checkIsWin();
             }
         });
-        final MediaPlayer mMediaPlayer = MediaPlayer.create(GameDiff.this, R.raw.background_music);
+        final MediaPlayer mMediaPlayer = MediaPlayer.create(Game.this, R.raw.background_music);
         mMediaPlayer.setLooping(true);
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +92,9 @@ public class GameDiff extends AppCompatActivity {
     }
 
     public class MyView extends View {
-        public int NUM = 30;
+        public int NUM = 10;     //格子数，调整难度 [num][num]
         public int padding = 10, width = (widths -2*padding)/NUM;// width 每个格子的宽度和高度，padding内边距
-        public com.example.sccproject.Lattice[][] maze;//格子的二位数组地图
+        public Lattice[][] maze;//格子的二位数组地图
         public int ballX, ballY;//玩家的位置
         public boolean drawPath = false;
 
@@ -104,23 +106,26 @@ public class GameDiff extends AppCompatActivity {
         public void init() {
             paint = new Paint();
             paint.setAntiAlias(true);
+
             paint.setColor(0xFF000000);
             paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(2);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            paint.setStrokeWidth(5);
 
-            maze = new com.example.sccproject.Lattice[NUM][NUM];//地图的大小
+            maze = new Lattice[NUM][NUM];//地图的大小
             //对格子初始化
             for (int i = 0; i <= NUM - 1; i++)
                 for (int j = 0; j <= NUM - 1; j++)
-                    maze[i][j] = new com.example.sccproject.Lattice(i, j);
+                    maze[i][j] = new Lattice(i, j);
             for (int i = 0; i <= NUM - 1; i++)
                 for (int j = 0; j <= NUM - 1; j++) {
                     maze[i][j].setFather(null);
-                    maze[i][j].setFlag( com.example.sccproject.Lattice.NOTINTREE);
+                    maze[i][j].setFlag(Lattice.NOTINTREE);
                 }
             ballX = 0;
             ballY = 0;
             drawPath = false;
+//            ImageView human = (ImageView)findViewById(R)
             createMaze();
         }
 
@@ -208,16 +213,15 @@ public class GameDiff extends AppCompatActivity {
         public int getCenterY(int y) {
             return padding + y * width + width / 2;
         }
-
-//        public int getCenterX(Lattice p) {
+//        public int getCenterX(com.example.lee.maze.Lattice p) {
 //            return padding + p.getY() * width + width / 2;
 //        }
-//        public int getCenterY(Lattice p) {
+//        public int getCenterY(com.example.lee.maze.Lattice p) {
 //            return padding + p.getX() * width + width / 2;
 //        }
         private void checkIsWin() {
             if (ballX == NUM - 1 && ballY == NUM - 1) {
-                Toast.makeText(GameDiff.this,"YOU WIN", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Game.this,"YOU WIN", Toast.LENGTH_SHORT).show();
                 init();
             }
         }
@@ -226,6 +230,7 @@ public class GameDiff extends AppCompatActivity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             canvas.drawColor(0xFFffffff);
+//            canvas.
             //从上到下画线
             for (int i = 0; i <= NUM; i++) {
                 canvas.drawLine(padding + i * width, padding, padding + i * width,

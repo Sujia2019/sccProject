@@ -14,12 +14,12 @@ import android.widget.Toast;
 import com.example.sccproject.fragment.FirstFragment;
 import com.example.sccproject.music.MusicServer;
 import com.example.sccproject.net.NettyClient;
+import com.example.sccproject.util.NetInfo;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -32,7 +32,7 @@ public class GameHallActivity extends AppCompatActivity {
     public static String xxx = "正在连接网络";
     private Intent intent;
     private Timer timer = new Timer();
-    public static ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
+    public static ScheduledExecutorService service = Executors.newScheduledThreadPool(20);
 
 
     @SuppressLint("CommitTransaction")
@@ -46,16 +46,16 @@ public class GameHallActivity extends AppCompatActivity {
         FirstFragment fragment = (FirstFragment)createFragment();
         toastInternet();
         //网络
-        new Thread(new NettyClient("47.93.225.242", 8888)).start();
+        new Thread(new NettyClient(fragment.loginHandler)).start();
         //网络检查
-        service.scheduleWithFixedDelay(new Beat(),3,3, TimeUnit.SECONDS);
+//        service.scheduleWithFixedDelay(new Beat(),3,3, TimeUnit.SECONDS);
 
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
                 Looper.prepare();
                 while (true) {
-                    if (NettyClient.isOk) {
+                    if (NetInfo.isConnect) {
                         Message msg = Message.obtain();
                         fragment.mHandler.sendMessage(msg);
                         break;
@@ -103,14 +103,14 @@ public class GameHallActivity extends AppCompatActivity {
         Toast.makeText(GameHallActivity.this,xxx,Toast.LENGTH_SHORT).show();
     }
 
-    static class Beat implements Runnable{
-
-        @Override
-        public void run() {
-            if(!NettyClient.isOk){
-                new Thread(new NettyClient("47.93.225.242", 8888)).start();
-            }
-        }
-    }
+//    static class Beat implements Runnable{
+//
+//        @Override
+//        public void run() {
+//            if(!NettyClient.isOk){
+//                new Thread(new NettyClient("47.93.225.242", 8888)).start();
+//            }
+//        }
+//    }
 
 }

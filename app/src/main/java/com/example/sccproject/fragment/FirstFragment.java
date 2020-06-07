@@ -1,6 +1,7 @@
 package com.example.sccproject.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.easyarch.model.PlayerInfo;
+import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
 import com.example.sccproject.service.UserMessageFactory;
 
@@ -35,12 +38,13 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FirstFragment extends Fragment {
     private ImageButton btn;
-    private static int count = 0;
+    private static volatile boolean isLogin = false;
     private static boolean isCodeRegist=false;
     private static boolean isCodeLogin=false;
     private UserMessageFactory userFactory;
-
+    private volatile GameFragment fragment;
 //    public
+    @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -53,6 +57,32 @@ public class FirstFragment extends Fragment {
             animation.setRepeatMode(Animation.REVERSE);
             btn.startAnimation(animation);
             userFactory = new UserMessageFactory();
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    public Handler loginHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            System.out.println("Handler");
+            try{
+                //有错误就捕捉，没错误就说明有玩家信息返回
+                PlayerInfo player = (PlayerInfo) ((com.easyarch.model.Message)msg.obj).getObj();
+                System.out.println("player："+player);
+                isLogin=true;
+                //传消息
+                fragment = new GameFragment();
+                fragment.setPlayer(player);
+
+            }catch(Exception e){
+                //发送广播
+//            Intent intent=new Intent();
+//            intent.putExtra("LoginError", msg.getObj().toString());
+//            intent.setAction("com.example.sccproject.ConnectService");
+//            sendBroadcast(intent);
+            Toast.makeText(getContext(),msg.obj.toString(),Toast.LENGTH_SHORT).show();
+            }
         }
     };
     private EditText editLogin;
@@ -135,17 +165,33 @@ public class FirstFragment extends Fragment {
         bLogin.setOnClickListener(v->{
             String userId = editLogin.getText().toString();
             String pwd = editPwd.getText().toString();
+            if(pwd.length()==0||userId.length()==0){
+                Toast.makeText(FirstFragment.this.getContext(),"输入不可为空o~"+editLogin.getText().toString(),Toast.LENGTH_SHORT).show();
+                return;
+            }
             System.out.println(userId);
             System.out.println(pwd);
             //业务层发送登录请求
-            userFactory.userNormalLogin(userId,pwd);
+            GameHallActivity.service.submit(()->{
+                userFactory.userNormalLogin(userId,pwd);
+            });
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("isLogin:"+isLogin);
             //开启异步线程等待服务器返回
-
+//            while (!isLogin){
+//                Log.d(TAG,"等待登录。。。");
+//            }
             dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
             Toast.makeText(FirstFragment.this.getContext(),"confirm",Toast.LENGTH_SHORT).show();
 //            //进入游戏界面
-//            GameHallActivity.replaceFragment(new GameFragment());
-//            dialog.cancel();
+            if (isLogin){
+                GameHallActivity.replaceFragment(new GameFragment());
+                dialog.cancel();
+            }
         });
 
         bRegister.setOnClickListener(v->{
@@ -266,6 +312,16 @@ public class FirstFragment extends Fragment {
         public void onClick(View v) {
             String phoneNumber = editRegister.getText().toString();
             userFactory.userCodeRegist(phoneNumber);
+            bRegistCode.setEnabled(false);
+            new Thread(() -> {
+                try {
+                    Toast.makeText(getContext(),"如未收到验证码60秒后可再次发送验证码",Toast.LENGTH_SHORT).show();
+                    Thread.sleep(6000);
+                    bRegistCode.setEnabled(true);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 
@@ -278,7 +334,7 @@ public class FirstFragment extends Fragment {
             editPwd1.setHint(R.string.code);
             editPwd2.setVisibility(View.GONE);
             bRegistCode.setText(R.string.send);
-            bRegistCode.setEnabled(false);
+            bRegistCode.setEnabled(true);
             isCodeRegist=true;
             returnRegister.setVisibility(View.VISIBLE);
         }

@@ -1,75 +1,63 @@
 package com.example.sccproject.net;
 
-import com.easyarch.model.Message;
-import com.easyarch.serialize.imp.ProtoStuffSerializer;
-import com.example.sccproject.GameHallActivity;
+import android.os.Handler;
+import android.util.Log;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import com.easyarch.model.Message;
+import com.example.sccproject.util.NetInfo;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by alienware on 2020/4/10.
  */
 
 public class NettyClient implements Runnable{
-    private String host;
-    private int port;
     private static volatile ChannelFuture future;
-    public static ThreadPoolExecutor executor = new ThreadPoolExecutor(5,10,200,
-            TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(5));
-    public static volatile boolean isOk = false;
-    public NettyClient(String host,int port){
-        this.host = host;
-        this.port = port;
+    private Handler view;
+    public NettyClient(Handler handler){
+        this.view = handler;
+    }
+    private void setHandler(Handler handler){
+        this.view = handler;
     }
 
     @Override
     public void run() {
         Bootstrap client = new Bootstrap();
-        EventLoopGroup group = new NioEventLoopGroup();
+        NioEventLoopGroup group = new NioEventLoopGroup();
         client.group(group);
         client.channel(NioSocketChannel.class);
-        client.handler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel ch) throws Exception {
-                ch.pipeline().addLast(new NettyEncoder(Message.class,new ProtoStuffSerializer()));
-                ch.pipeline().addLast(new NettyDecoder(Message.class,new ProtoStuffSerializer()));
-
-                ch.pipeline().addLast(new SimpleClientHandler());
-            }
-        }).option(ChannelOption.TCP_NODELAY, true)
+        client.handler(new ClientChannelInitializer(view))
+                .option(ChannelOption.TCP_NODELAY, true)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000);
         try {
-            future = client.connect(host,port).sync();
+            future = client.connect(NetInfo.host,NetInfo.port).sync();
+            future.addListener((ChannelFutureListener) future -> {
+                NetInfo.isConnect = future.isSuccess();
+                if (future.isSuccess()) {
+                    Log.d(TAG, "connect success !");
+                } else {
+                    Log.d(TAG, "connect failed !");
+                }
+            });
             System.out.println("------connect------");
-            isOk = true;
-            GameHallActivity.xxx="网络连接成功";
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
-            isOk=false;
             group.shutdownGracefully();
         }
     }
 
-    public static void sendMessage(final Message message){
-        executor.execute(() -> {
-            try {
-                future.channel().writeAndFlush(message).sync();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+    public static void sendMessage(Message message){
+        future.channel().writeAndFlush(message);
     }
 
 }

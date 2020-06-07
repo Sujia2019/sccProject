@@ -1,4 +1,4 @@
-package com.example.sccproject;
+package com.example.sccproject.Mze;
 
 /**
  * Created by alienware on 2020/3/18.

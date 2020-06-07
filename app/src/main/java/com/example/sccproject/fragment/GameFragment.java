@@ -22,6 +22,9 @@ import com.easyarch.model.PlayerInfo;
 import com.example.sccproject.GameHallActivity;
 import com.example.sccproject.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -47,16 +50,20 @@ public class GameFragment extends Fragment {
     private LinearLayout infoLayout;
     private static boolean isMatching = false;
     private static boolean isInfoShow = false;
-
-    public static PlayerInfo player ;
+    private PlayerInfo player;
 
 
     private static int clicks = 0;
 
 
     public GameFragment(){
-        player = new com.easyarch.model.PlayerInfo();
-        loadPlayerInfo();
+
+    }
+    public void setPlayer(PlayerInfo player){
+        this.player = player;
+    }
+    public PlayerInfo getPlayer(){
+        return player;
     }
 
     @Override
@@ -71,6 +78,7 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_game,container,false);
+
         soul = (ImageView)view.findViewById(R.id.cute_soul);
         soul.setImageDrawable(view.getResources().getDrawable(R.drawable.soul_flash));
         animationSoul = (AnimationDrawable)soul.getDrawable();
@@ -204,13 +212,24 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void loadPlayerInfo(){
-        player.setClimbLevel(1);
-        player.setFightCount(0);
-        player.setUserId("1234567");
-        player.setUserName("test");
-        player.setWinCount(0);
-        player.setMoney(0);
-        player.setRank(0);
+    @Subscribe
+    public void onEvent(PlayerInfo player){
+        Toast.makeText(this.getContext(),player.toString(),Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+    //    private void loadPlayerInfo(){
+//        player.setClimbLevel(1);
+//        player.setFightCount(0);
+//        player.setUserId("1234567");
+//        player.setUserName("test");
+//        player.setWinCount(0);
+//        player.setMoney(0);
+//        player.setRank(0);
+//    }
 }

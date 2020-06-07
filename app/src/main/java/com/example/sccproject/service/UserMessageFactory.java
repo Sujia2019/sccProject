@@ -21,6 +21,7 @@ public class UserMessageFactory extends MessageFactory {
         sendMessage();
     }
 
+
     //正常注册
     public void userNormalRegist(String userId,String userPwd){
         userDefine(userId,userPwd);
