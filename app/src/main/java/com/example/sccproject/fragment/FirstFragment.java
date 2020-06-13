@@ -43,7 +43,7 @@ public class FirstFragment extends Fragment {
     private static boolean isCodeLogin=false;
     private UserMessageFactory userFactory;
     private volatile GameFragment fragment;
-//    public
+//   handler 传输信息
     @SuppressLint("HandlerLeak")
     public Handler mHandler = new Handler() {
         @Override

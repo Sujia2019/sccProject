@@ -47,8 +47,6 @@ public class GameHallActivity extends AppCompatActivity {
         toastInternet();
         //网络
         new Thread(new NettyClient(fragment.loginHandler)).start();
-        //网络检查
-//        service.scheduleWithFixedDelay(new Beat(),3,3, TimeUnit.SECONDS);
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -66,6 +64,7 @@ public class GameHallActivity extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask,1000);
+
 //        AsyncTask.execute(() -> {
 //            nettyClient = new NettyClient("47.93.225.242",8888);
 //            Looper.prepare();

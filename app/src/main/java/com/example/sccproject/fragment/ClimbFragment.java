@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.example.sccproject.util.TurnHandler;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by alienware on 2020/4/13.
@@ -40,8 +43,6 @@ public class ClimbFragment extends Fragment {
     private ImageView attack;
     private boolean isRight = true;//人物是否朝着右边走
     private static volatile boolean isStop = true;//true=stop;false=run
-//    private static int index = 0;//奔跑初态
-//    private static volatile boolean isDoSomething = false;
 
     private int[] humanBorn = new int[]{
             R.drawable.born1,R.drawable.born2,R.drawable.born3,R.drawable.born4,
@@ -112,35 +113,67 @@ public class ClimbFragment extends Fragment {
         animationMonster = (AnimationDrawable) monster.getDrawable();
         animationMonster.start();
 
-        buttonUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        buttonUp.setOnClickListener(v -> {
+            Log.d(TAG,"------BUTTON_UP------CLICK------");
         });
 
-        buttonDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        buttonDown.setOnClickListener(v -> {
+            Log.d(TAG,"------BUTTON_DOWN------CLICK------");
         });
 
-        buttonLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                role.setImageResource(roleMove[0]);
-                //图像镜像翻转
-                role.setImageBitmap(TurnHandler.flipImage(role.getScrollX(),role.getScrollY(),role.getDrawingCache()));
-                //图像移动
-                role.setTranslationX(-20);
-                role.postInvalidate();
-                role.setImageResource(humanBorn[16]);
-                role.postInvalidate();
+        buttonLeft.setOnClickListener(v->{
+            isRight=false;
+            //图像镜像翻转
+            role.setImageBitmap(TurnHandler.turn(role.getResources(),roleMove[0]));
+            //图像移动
+            role.setTranslationX(-20);
+            role.postInvalidate();
+            role.setImageResource(humanBorn[16]);
+            role.postInvalidate();
+            if(!isStop){
+                isStop=true;
+                service.submit(() -> role.setImageBitmap(TurnHandler.turn(role.getResources(),R.drawable.role_stuck)));
+            }else{
+                service.submit(() -> {
+                    if(!animationRole.isRunning()){
+                        role.setImageBitmap(TurnHandler.turn(role.getResources(),roleMove[0]));
+                    }
+                    try {
+                        role.setX(role.getX()-10);
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //图像移动
+                    role.setImageBitmap(TurnHandler.turn(role.getResources(),R.drawable.role_stuck));
+                });
             }
+        });
+        buttonLeft.setOnLongClickListener(v -> {
+            isRight=false;
+            isStop=false;
+            service.submit(() -> {
+                int i = 0;
+                int length = roleMove.length;
+                while (!isStop) {
+                    //如果没做其他的
+                    if(!animationRole.isRunning()){
+                        role.setImageBitmap(TurnHandler.turn(role.getResources(),roleMove[i]));
+                    }
+                    role.setX(role.getX()-20);
+                    i = (i+1)%length;
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            return false;
         });
 
         buttonRight.setOnLongClickListener(v -> {
+            isRight=true;
             isStop=false;
             service.submit(() -> {
                 int i = 0;
@@ -180,7 +213,6 @@ public class ClimbFragment extends Fragment {
                     role.setImageResource(R.drawable.role_stuck);
                 });
             }
-
         });
 
         s1.setOnClickListener(v -> {

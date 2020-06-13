@@ -32,7 +32,7 @@
         <service android:name=".music.MusicServer"
             android:enabled="true"
             android:exported="true"
-            android:permission="">
+            android:permission="TODO">
         </service>
 
 <!--        <activity android:name=".TestActivity">-->
