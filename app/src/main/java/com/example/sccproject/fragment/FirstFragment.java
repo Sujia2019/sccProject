@@ -38,7 +38,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class FirstFragment extends Fragment {
     private ImageButton btn;
-    private static volatile boolean isLogin = false;
+    private static volatile boolean isLogin = true;
     private static boolean isCodeRegist=false;
     private static boolean isCodeLogin=false;
     private UserMessageFactory userFactory;
@@ -158,7 +158,6 @@ public class FirstFragment extends Fragment {
                 isCodeLogin=true;
             }
         });
-
 
         //普通登录
         Button bLogin = (Button)view.findViewById(R.id.login);

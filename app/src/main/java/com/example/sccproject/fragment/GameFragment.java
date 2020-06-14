@@ -14,7 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +28,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by alienware on 2020/4/10.
  */
@@ -37,17 +38,18 @@ public class GameFragment extends Fragment {
     private ImageView soul ;
     private ScheduledExecutorService service ;
 
-    private ImageButton fightButton ;
-    private ImageButton adventureButton ;
-    private ImageButton storyButton ;
-    private ImageButton helpButton ;
-    private ImageButton optionButton ;
-    private ImageButton headButton ;
+    private ImageButton fightButton ;//匹配
+    private ImageButton adventureButton ;//探险
+    private ImageButton storyButton ;//故事背景
+    private ImageButton helpButton ;//帮助
+    private ImageButton optionButton ;//选项
+    private ImageButton shopButton;//商店
+    private ImageButton headButton ;//个人头像按钮
     private TextView timer;
     private ImageButton matchCancel;
     private ConstraintLayout layoutMatch;
     private AnimationDrawable animationSoul;
-    private LinearLayout infoLayout;
+    private ImageView infoView;
     private static boolean isMatching = false;
     private static boolean isInfoShow = false;
     private PlayerInfo player;
@@ -78,7 +80,6 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_game,container,false);
-
         soul = (ImageView)view.findViewById(R.id.cute_soul);
         soul.setImageDrawable(view.getResources().getDrawable(R.drawable.soul_flash));
         animationSoul = (AnimationDrawable)soul.getDrawable();
@@ -178,18 +179,18 @@ public class GameFragment extends Fragment {
             }
         });
 
-        infoLayout = (LinearLayout)view.findViewById(R.id.info_layout);
-        infoLayout.setVisibility(View.INVISIBLE);
+        infoView = (ImageView) view.findViewById(R.id.charater_info);
+        infoView.setVisibility(View.INVISIBLE);
         headButton = (ImageButton)view.findViewById(R.id.player_head);
         headButton.setOnClickListener(v->{
             if(!isInfoShow){
                 //显示info信息布局
-                infoLayout.setVisibility(View.VISIBLE);
+                infoView.setVisibility(View.VISIBLE);
                 //设置移动animation
                 final Animation animation = new TranslateAnimation(-400,0,0,0);
                 animation.setDuration(500);
                 //启用
-                infoLayout.startAnimation(animation);
+                infoView.startAnimation(animation);
                 isInfoShow=true;
             }else{
                 //显示info信息布局
@@ -197,14 +198,33 @@ public class GameFragment extends Fragment {
                 final Animation animation = new TranslateAnimation(0,-400,0,0);
                 animation.setDuration(500);
                 //启用
-                infoLayout.startAnimation(animation);
-                infoLayout.setVisibility(View.INVISIBLE);
+                infoView.startAnimation(animation);
+                infoView.setVisibility(View.INVISIBLE);
                 isInfoShow = false;
             }
         });
+        final SweetAlertDialog dialog = new SweetAlertDialog(getContext(),SweetAlertDialog.NORMAL_TYPE);
+        View viewOption = inflater.inflate(R.layout.layout_option,container,false);
+        View viewHelper = inflater.inflate(R.layout.layout_help,container,false);
+        //帮助按钮
         helpButton = (ImageButton)view.findViewById(R.id.help);
+        helpButton.setOnClickListener(v->{
+            dialog.setContentView(viewHelper);
+            dialog.setCancelable(true);
+            dialog.show();
+        });
+        //设置选项
         optionButton = (ImageButton)view.findViewById(R.id.options);
+        optionButton.setOnClickListener(v->{
+            dialog.setContentView(viewOption);
+            dialog.setCancelable(true);
+            dialog.show();
+        });
 
+        shopButton = (ImageButton)view.findViewById(R.id.shop);
+        shopButton.setOnClickListener(v->{
+            GameHallActivity.replaceFragment(new ShopFragment());
+        });
         return view;
     }
 

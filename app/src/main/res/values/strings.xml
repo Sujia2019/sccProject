@@ -30,5 +30,14 @@
     <string name="return_regist">返回普通注册</string>
     <string name="return_login">返回普通登录</string>
     <string name="code_login">验证码登录</string>
+    <string name="k1">Accumlate</string>
+    <string name="k3">WhirlWind</string>
+    <string name="k2">Cleaving</string>
+    <string name="k4">SwiftEdge</string>
+    <string name="k5">Demolition\nImpact</string>
+    <string name="k6">Strength</string>
+    <string name="k7">Divine\Inspirate</string>
+    <string name="k8">CrippingEdge</string>
+    <string name="kk">Brave!\nHeart!</string>>
 
 </resources>

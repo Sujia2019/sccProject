@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/skill_shop">
+
+    <ImageButton
+        android:id="@+id/k2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="72dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k1"
+        app:layout_constraintTop_toTopOf="@+id/k1"
+        app:srcCompat="@drawable/cleaving" />
+
+    <ImageButton
+        android:id="@+id/k6"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/k3"
+        app:layout_constraintTop_toBottomOf="@+id/k3"
+        app:srcCompat="@drawable/holy_strength" />
+
+    <ImageButton
+        android:id="@+id/k3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="@+id/k1"
+        app:layout_constraintTop_toBottomOf="@+id/k1"
+        app:srcCompat="@drawable/whirlwind" />
+
+    <ImageButton
+        android:id="@+id/k4"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="72dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k3"
+        app:layout_constraintTop_toTopOf="@+id/k3"
+        app:srcCompat="@drawable/swift_edge" />
+
+    <ImageButton
+        android:id="@+id/k1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="296dp"
+        android:layout_marginTop="124dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/accumulate" />
+
+    <ImageButton
+        android:id="@+id/k8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="72dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k7"
+        app:layout_constraintTop_toTopOf="@+id/k7"
+        app:srcCompat="@drawable/cripping_edge" />
+
+    <ImageButton
+        android:id="@+id/k7"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="72dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k6"
+        app:layout_constraintTop_toTopOf="@+id/k6"
+        app:srcCompat="@drawable/divine_inspirate" />
+
+    <ImageButton
+        android:id="@+id/k5"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="72dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k4"
+        app:layout_constraintTop_toTopOf="@+id/k4"
+        app:srcCompat="@drawable/demolition_impact" />
+
+    <ImageButton
+        android:id="@+id/kk"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:background="#00FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toEndOf="@+id/k5"
+        app:layout_constraintTop_toTopOf="@+id/k2"
+        app:srcCompat="@drawable/brave_heart" />
+
+    <TextView
+        android:id="@+id/kt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="@string/k1"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k1"
+        app:layout_constraintEnd_toStartOf="@+id/k2"
+        app:layout_constraintStart_toEndOf="@+id/k1"
+        app:layout_constraintTop_toTopOf="@+id/k1" />
+
+    <TextView
+        android:id="@+id/kt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:text="@string/k3"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k3"
+        app:layout_constraintEnd_toStartOf="@+id/k4"
+        app:layout_constraintStart_toEndOf="@+id/k3"
+        app:layout_constraintTop_toTopOf="@+id/k3" />
+
+    <TextView
+        android:id="@+id/kt6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/k6"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k6"
+        app:layout_constraintEnd_toStartOf="@+id/k7"
+        app:layout_constraintStart_toEndOf="@+id/k6"
+        app:layout_constraintTop_toTopOf="@+id/k6" />
+
+    <TextView
+        android:id="@+id/kt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/k2"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k2"
+        app:layout_constraintEnd_toStartOf="@+id/k5"
+        app:layout_constraintStart_toEndOf="@+id/k2"
+        app:layout_constraintTop_toTopOf="@+id/k2" />
+
+    <TextView
+        android:id="@+id/kt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/k4"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k4"
+        app:layout_constraintEnd_toStartOf="@+id/k5"
+        app:layout_constraintStart_toEndOf="@+id/k4"
+        app:layout_constraintTop_toTopOf="@+id/k4" />
+
+    <TextView
+        android:id="@+id/kt8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/k8"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k8"
+        app:layout_constraintStart_toEndOf="@+id/k8"
+        app:layout_constraintTop_toTopOf="@+id/k8" />
+
+    <TextView
+        android:id="@+id/kt7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/k7"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k7"
+        app:layout_constraintEnd_toStartOf="@+id/k8"
+        app:layout_constraintStart_toEndOf="@+id/k7"
+        app:layout_constraintTop_toTopOf="@+id/k7" />
+
+    <TextView
+        android:id="@+id/kt5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/k5"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/k5"
+        app:layout_constraintEnd_toEndOf="@+id/kt8"
+        app:layout_constraintStart_toEndOf="@+id/k5"
+        app:layout_constraintTop_toTopOf="@+id/k5" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="casual"
+        android:text="@string/kk"
+        android:textColor="@color/main_orange_light_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/kk"
+        app:layout_constraintStart_toEndOf="@+id/kk"
+        app:layout_constraintTop_toTopOf="@+id/kk"
+        app:layout_constraintVertical_bias="0.578" />
+</android.support.constraint.ConstraintLayout>
